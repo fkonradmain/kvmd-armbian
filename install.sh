@@ -483,8 +483,8 @@ enable-kvmd-svcs() {
 build-ustreamer() {
   printf "\n\n-> Building ustreamer\n\n" | tee -a $LOGFILE
   # Install packages needed for building ustreamer source
-  echo "apt install -y make libevent-dev libjpeg-dev libbsd-dev libgpiod-dev libsystemd-dev libmd-dev libdrm-dev janus-dev janus" | tee -a $LOGFILE
-  apt install -y make libevent-dev libjpeg-dev libbsd-dev libgpiod-dev libsystemd-dev libmd-dev libdrm-dev janus-dev janus >> $LOGFILE
+  echo "apt-get install -y make libevent-dev libjpeg-dev libbsd-dev libgpiod-dev libsystemd-dev libmd-dev libdrm-dev janus-dev janus" | tee -a $LOGFILE
+  apt-get install -y make libevent-dev libjpeg-dev libbsd-dev libgpiod-dev libsystemd-dev libmd-dev libdrm-dev janus-dev janus >> $LOGFILE
 
   # fix refcount.h
   sed -i -e 's|^#include "refcount.h"$|#include "../refcount.h"|g' /usr/include/janus/plugins/plugin.h
@@ -507,8 +507,8 @@ install-dependencies() {
   echo
   echo "-> Installing dependencies for pikvm" | tee -a $LOGFILE
 
-  echo "apt install -y nginx python3 net-tools bc expect v4l-utils iptables vim dos2unix screen tmate nfs-common gpiod ffmpeg dialog iptables dnsmasq git python3-pip tesseract-ocr tesseract-ocr-eng libasound2-dev libsndfile-dev libspeexdsp-dev libdrm-dev" | tee -a $LOGFILE
-  apt install -y nginx python3 net-tools bc expect v4l-utils iptables vim dos2unix screen tmate nfs-common gpiod ffmpeg dialog iptables dnsmasq git python3-pip tesseract-ocr tesseract-ocr-eng libasound2-dev libsndfile-dev libspeexdsp-dev libdrm-dev >> $LOGFILE
+  echo "apt-get install -y nginx python3 net-tools bc expect v4l-utils iptables vim dos2unix screen tmate nfs-common gpiod ffmpeg dialog iptables dnsmasq git python3-pip tesseract-ocr tesseract-ocr-eng libasound2-dev libsndfile-dev libspeexdsp-dev libdrm-dev" | tee -a $LOGFILE
+  apt-get install -y nginx python3 net-tools bc expect v4l-utils iptables vim dos2unix screen tmate nfs-common gpiod ffmpeg dialog iptables dnsmasq git python3-pip tesseract-ocr tesseract-ocr-eng libasound2-dev libsndfile-dev libspeexdsp-dev libdrm-dev >> $LOGFILE
 
   sed -i -e 's/#port=5353/port=5353/g' /etc/dnsmasq.conf
 
@@ -516,7 +516,7 @@ install-dependencies() {
 
   echo "-> Install python3 modules dbus_next and zstandard" | tee -a $LOGFILE
   if [[ "$PYTHONVER" == "3.11" || "$PYTHONVER" == "3.12" ]]; then
-    apt install -y python3-dbus-next python3-zstandard
+    apt-get install -y python3-dbus-next python3-zstandard
   else
     pip3 install dbus_next zstandard
   fi
@@ -525,7 +525,7 @@ install-dependencies() {
   ln -sf /usr/share/tesseract-ocr/*/tessdata /usr/share/tessdata
 
   echo "-> Install TTYD" | tee -a $LOGFILE
-  apt install -y ttyd | tee -a $LOGFILE
+  apt-get install -y ttyd | tee -a $LOGFILE
   if [ ! -e /usr/bin/ttyd ]; then
     # Build and install ttyd
     cd /tmp
