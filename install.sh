@@ -606,7 +606,7 @@ fix-nginx-symlinks() {
   if [ ! -e $PYTHONDIR/kvmd ]; then
     # Debian python版本比 pikvm官方的低一些
     # in case new kvmd packages are now using python 3.11
-    ln -sf /usr/lib/python3.1*/site-packages/kvmd* ${PYTHONDIR}
+    ln -sf /usr/lib/python"${PYTHONVER}"/site-packages/kvmd* ${PYTHONDIR}
   fi
 } # end fix-nginx-symlinks
 
@@ -615,7 +615,7 @@ fix-python-symlinks(){
 
   if [ ! -e $PYTHONDIR/kvmd ]; then
     # Debian python版本比 pikvm官方的低一些
-    ln -sf /usr/lib/python3.1*/site-packages/kvmd* ${PYTHONDIR}
+    ln -sf /usr/lib/python"${PYTHONVER}"/site-packages/kvmd* ${PYTHONDIR}
   fi
 }
 
@@ -1022,7 +1022,7 @@ if [[ $( grep kvmd /etc/passwd | wc -l ) -eq 0 || "$1" == "-f" ]]; then
 
   # Fix paste-as-keys if running python 3.7
   if [[ $( python3 -V | awk '{print $2}' | cut -d'.' -f1,2 ) == "3.7" ]]; then
-    sed -i -e 's/reversed//g' /usr/lib/python3.1*/site-packages/kvmd/keyboard/printer.py
+    sed -i -e 's/reversed//g' /usr/lib/python"${PYTHONVER}"/site-packages/kvmd/keyboard/printer.py
   fi
 
   ### run these to make sure kvmd users are created ###
@@ -1058,8 +1058,11 @@ else
   create-kvmdfix
 
   ### additional python pip dependencies for kvmd 3.238 and higher
+  apt-get install -y ustreamer ttyd
   case $PYTHONVER in
-    3.10*|3.[987]*)
+    3.1[01234]*|3.[987]*)
+      apt-get install -y python3-async-lru python3-pygments python3-pyotp python3-aiohttp python3-setproctitle python3-dbus-next python3-systemd python3-pil python3-xlib python3-zstandard python3-passlib python3-libgpiod python3-psutil
+
       pip3 install async-lru 2> /dev/null
       ### Fix for kvmd 3.291 -- only applies to python 3.10 ###
       sed -i -e 's|gpiod.EdgeEvent|gpiod.LineEvent|g' /usr/lib/python3/dist-packages/kvmd/aiogp.py
