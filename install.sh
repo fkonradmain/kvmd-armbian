@@ -918,6 +918,16 @@ async-lru-fix() {
   esac
 } # end async-lru-fix
 
+# Fix keysym for python versions beyond 3.10 according to https://github.com/pikvm/kvmd/commit/3d8265e6b97dd692f2147abf7dd0bff6c91b690f
+fix-keysym-py() {
+  for pyver in 3.11 3.12 3.13 3.14 3.15; do
+    filepath="/usr/lib/python${pyver}/site-packages/kvmd/keyboard/keysym.py"
+    if [ -f "$filepath" ]; then
+      wget https://raw.githubusercontent.com/pikvm/kvmd/3d8265e6b97dd692f2147abf7dd0bff6c91b690f/kvmd/keyboard/keysym.py -O "$filepath"
+    fi
+  done
+}
+
 cm4-mods() {  # apply CM4 specific mods
   if [ $cm4 -eq 1 ]; then
     echo "-> Applying CM4 specific changes" | tee -a $LOGFILE
@@ -1015,6 +1025,7 @@ if [[ $( grep kvmd /etc/passwd | wc -l ) -eq 0 || "$1" == "-f" ]]; then
   install-dependencies
   otg-devices
   armbian-packages
+  fix-keysym-py
   systemctl disable --now janus ttyd
 
   printf "\nEnd part 1 of PiKVM installer script v$VER by @srepac\n" >> $LOGFILE

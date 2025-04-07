@@ -48,7 +48,7 @@ overlays=usbhost0 usbhost1 usbhost2 usbhost3
 ```
 apt update && apt upgrade -y
 apt install -y git vim make python3-dev gcc xz-utils wget sudo
-git clone https://github.com/srepac/kvmd-armbian.git
+git clone https://github.com/fkonradmain/kvmd-armbian.git
 cd kvmd-armbian
 ./install.sh
 ```
