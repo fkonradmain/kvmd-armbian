@@ -1069,7 +1069,6 @@ else
   create-kvmdfix
 
   ### additional python pip dependencies for kvmd 3.238 and higher
-  apt-get install -y ustreamer ttyd
   case $PYTHONVER in
     3.1[01234]*|3.[987]*)
       apt-get install -y python3-async-lru python3-pygments python3-pyotp python3-aiohttp python3-setproctitle python3-dbus-next python3-systemd python3-pil python3-xlib python3-zstandard python3-passlib python3-libgpiod python3-psutil
